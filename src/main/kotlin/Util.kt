@@ -10,13 +10,13 @@ import java.nio.file.Files.exists
 import java.nio.file.Files.isDirectory
 import java.nio.file.Files.readAllLines
 import java.nio.file.Path
-import kotlin.io.path.writeBytes
+import kotlin.io.path.writeText
 
 object Util {
     private const val year = 2022
     private val cookie = Files.readString(Path.of("cookie.txt"))
 
-    internal fun fetchInput(day: Int): String {
+    internal fun fetchInput(day: String): String {
         val client = HttpClient.newBuilder().build()
         val request = HttpRequest.newBuilder()
             .uri(URI.create("https://adventofcode.com/$year/day/$day/input"))
@@ -31,16 +31,22 @@ object Util {
     }
 }
 
-fun getInput(day: Int): List<String> {
+fun getInput(day: String): List<String> {
     if (!isDirectory(Path.of("input"))) {
         createDirectory(Path.of("input"))
     }
 
-    if (!exists(Path.of("input/$day.txt"))) {
-        val input = fetchInput(day)
-        val file = createFile(Path.of("input/$day.txt"))
-        file.writeBytes(input.toByteArray())
-    }
+    if (day.endsWith("t")) {
+        val paddedDay = day.padStart(3, '0')
+        return readAllLines(Path.of("input/$paddedDay.txt"))
+    } else {
+        val paddedDay = day.padStart(2, '0')
+        if (!exists(Path.of("input/$paddedDay.txt"))) {
+            val input = fetchInput(day)
+            val file = createFile(Path.of("input/$paddedDay.txt"))
+            file.writeText(input)
+        }
 
-    return readAllLines(Path.of("input/$day.txt"))
+        return readAllLines(Path.of("input/$paddedDay.txt"))
+    }
 }
