@@ -3,18 +3,17 @@ import java.net.URI
 import java.net.http.HttpClient
 import java.net.http.HttpRequest
 import java.net.http.HttpResponse
-import java.nio.file.Files
 import java.nio.file.Files.createDirectory
 import java.nio.file.Files.createFile
 import java.nio.file.Files.exists
 import java.nio.file.Files.isDirectory
-import java.nio.file.Files.readAllLines
+import java.nio.file.Files.readString
 import java.nio.file.Path
 import kotlin.io.path.writeText
 
 object Util {
     private const val year = 2022
-    private val cookie = Files.readString(Path.of("cookie.txt"))
+    private val cookie = readString(Path.of("cookie.txt"))
 
     internal fun fetchInput(day: String): String {
         val client = HttpClient.newBuilder().build()
@@ -31,14 +30,14 @@ object Util {
     }
 }
 
-fun getInput(day: String): List<String> {
+fun getInput(day: String): String {
     if (!isDirectory(Path.of("input"))) {
         createDirectory(Path.of("input"))
     }
 
     if (day.endsWith("t")) {
         val paddedDay = day.padStart(3, '0')
-        return readAllLines(Path.of("input/$paddedDay.txt"))
+        return readString(Path.of("input/$paddedDay.txt")).trim()
     } else {
         val paddedDay = day.padStart(2, '0')
         if (!exists(Path.of("input/$paddedDay.txt"))) {
@@ -47,6 +46,9 @@ fun getInput(day: String): List<String> {
             file.writeText(input)
         }
 
-        return readAllLines(Path.of("input/$paddedDay.txt"))
+        return readString(Path.of("input/$paddedDay.txt")).trim()
     }
 }
+
+fun List<String>.toInts(): List<Int> = map { it.toInt() }
+fun String.splitByEmptyLine(): List<String> = split(System.lineSeparator()+System.lineSeparator())

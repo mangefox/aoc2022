@@ -22,8 +22,8 @@ fun main() {
 
         val content = """
                 fun main() {
-                    val lines = getInput("$day")
-                    lines.forEach { println(it) }
+                    val lines = getInput("$day").lines()
+                    lines.forEach { println("'${'$'}it'") }
                     println("lines.size = ${'$'}{lines.size}")
                 }
             """.trimIndent()
