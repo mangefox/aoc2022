@@ -1,26 +1,21 @@
 fun main() {
-    val lines = getInput("2").lines()
-    var count = 0
-    for (line in lines) {
-        val (op, me) = line.split(" ")
-//
-//        println("op = ${op}")
-//        println("me = ${me}")
-
-        // rock  1
-        // paper 2
-        // sciss 3
-        when {
-            op == "A" && me == "X" -> count += 3 + 0 // rock v  lose  scissors
-            op == "A" && me == "Y" -> count += 1 + 3 // rock v  draw  rock
-            op == "A" && me == "Z" -> count += 2 + 6 // rock v  win   paper
-            op == "B" && me == "X" -> count += 1 + 0 // paper v lose  rock
-            op == "B" && me == "Y" -> count += 2 + 3 // paper v draw  paper
-            op == "B" && me == "Z" -> count += 3 + 6 // paper v  lose ciss
-            op == "C" && me == "X" -> count += 2 + 0 // scissors v win  rock
-            op == "C" && me == "Y" -> count += 3 + 3 // scissors v draw sciss
-            op == "C" && me == "Z" -> count += 1 + 6 // scissors v lose rock
+    val part2 = getInput("2")
+        .lines()
+        .map { line ->
+            when (line) {
+                "A X" -> 3 + 0 // rock  vs ? = lose -> sciss
+                "A Y" -> 1 + 3 // rock  vs ? = draw -> rock
+                "A Z" -> 2 + 6 // rock  vs ? = win  -> paper
+                "B X" -> 1 + 0 // paper vs ? = lose -> rock
+                "B Y" -> 2 + 3 // paper vs ? = draw -> paper
+                "B Z" -> 3 + 6 // paper vs ? = win  -> sciss
+                "C X" -> 2 + 0 // sciss vs ? = lose -> paper
+                "C Y" -> 3 + 3 // sciss vs ? = draw -> sciss
+                "C Z" -> 1 + 6 // sciss vs ? = win  -> rock
+                else -> throw IllegalStateException("boom")
+            }
         }
-    }
-    println("count = ${count}")
+        .sum()
+
+    require(part2 == 12411)
 }
