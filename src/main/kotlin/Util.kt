@@ -15,6 +15,13 @@ import kotlin.io.path.writeText
 fun List<String>.toInts(): List<Int> = map { it.toInt() }
 fun String.splitByEmptyLine(): List<String> = split(System.lineSeparator()+System.lineSeparator())
 
+/*
+Library functions todo
+- split by empty line
+- check interval overlap
+- check interval contained
+ */
+
 object Util {
     private const val year = 2022
     private val cookie = readString(Path.of("cookie.txt"))
@@ -41,7 +48,7 @@ fun getInput(day: String): String {
 
     if (day.endsWith("t")) {
         val paddedDay = day.padStart(3, '0')
-        return readString(Path.of("input/$paddedDay.txt")).trim()
+        return readString(Path.of("input/$paddedDay.txt"))
     } else {
         val paddedDay = day.padStart(2, '0')
         if (!exists(Path.of("input/$paddedDay.txt"))) {
@@ -50,7 +57,7 @@ fun getInput(day: String): String {
             file.writeText(input)
         }
 
-        return readString(Path.of("input/$paddedDay.txt")).trim()
+        return readString(Path.of("input/$paddedDay.txt"))
     }
 }
 
@@ -71,7 +78,9 @@ fun main() {
         val content = """
                 fun main() {
                     val lines = getInput("$day").lines()
-                    lines.forEach { println("'${'$'}it'") }
+                    for (line in lines) {
+                        println("'${'$'}line'")
+                    }
                     println("lines.size = ${'$'}{lines.size}")
                 }
             """.trimIndent()
