@@ -14,6 +14,11 @@ import kotlin.io.path.writeText
 
 fun List<String>.toInts(): List<Int> = map { it.toInt() }
 fun String.splitByEmptyLine(): List<String> = split(System.lineSeparator()+System.lineSeparator())
+fun <T> List<List<T>>.transpose(): List<List<T>> {
+    val result = (first().indices).map { mutableListOf<T>() }.toMutableList()
+    forEach { list -> result.zip(list).forEach { it.first.add(it.second) } }
+    return result
+}
 
 /*
 Library functions todo
